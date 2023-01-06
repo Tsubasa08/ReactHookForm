@@ -3,9 +3,10 @@ import {
   Controller,
   FormProvider,
   useFormContext,
+  useWatch,
 } from 'react-hook-form';
 import { ErrorMessage } from '@hookform/error-message';
-import { Input } from '@chakra-ui/react';
+import { Input, Image } from '@chakra-ui/react';
 import React = require('react');
 
 export const ControllerForm = () => {
@@ -41,6 +42,7 @@ export const ControllerForm = () => {
           )}
         />
         <EmailInput />
+        <ImagesInput />
 
         <input type="submit" />
       </form>
@@ -62,5 +64,46 @@ const EmailInput = () => {
         </div>
       )}
     />
+  );
+};
+
+const ImagesInput = () => {
+  const { control } = useFormContext();
+  const images: File[] = useWatch({
+    control,
+    name: 'images',
+  });
+  // const imagesArray = Array.from(images);
+  console.log('=============');
+  console.log(images);
+  // console.log(typeof imagesArray);
+
+  return (
+    <React.Fragment>
+      <Controller
+        control={control}
+        rules={{ required: 'This is required.' }}
+        name="images"
+        render={({ field: { onChange, onBlur }, formState: { errors } }) => (
+          <div>
+            <Input type="file" multiple onChange={onChange} onBlur={onBlur} />
+            <ErrorMessage errors={errors} name="images" />
+          </div>
+        )}
+      />
+      <div>{images}</div>
+      {/* {imagesArray && (
+        <div>
+          {imagesArray.map((image) => (
+            <div>{image}</div>
+          ))}
+        </div>
+      )} */}
+
+      {/* {images &&
+        images.map((image) => (
+          <Image src={URL.createObjectURL(image)} fit="cover" boxSize="50px" />
+        ))} */}
+    </React.Fragment>
   );
 };
