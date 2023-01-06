@@ -67,6 +67,24 @@ const EmailInput = () => {
   );
 };
 
+const RegisterImagesInput = () => {
+  const { register, control } = useFormContext();
+  const images: File[] = useWatch({
+    control,
+    name: 'images',
+  });
+  // const imagesArray = Array.from(images);
+  return (
+    <React.Fragment>
+      <input type="file" multiple {...register('image')} />
+      {images &&
+        images.map((image) => (
+          <Image src={URL.createObjectURL(image)} fit="cover" boxSize="50px" />
+        ))}
+    </React.Fragment>
+  );
+};
+
 const ImagesInput = () => {
   const { control } = useFormContext();
   const images: File[] = useWatch({
@@ -100,10 +118,10 @@ const ImagesInput = () => {
         </div>
       )} */}
 
-      {/* {images &&
+      {images &&
         images.map((image) => (
           <Image src={URL.createObjectURL(image)} fit="cover" boxSize="50px" />
-        ))} */}
+        ))}
     </React.Fragment>
   );
 };
